@@ -16,7 +16,4 @@ device-adc-bbblue-left:
 image: chalmersrevere/opendlv-device-adc-bbblue-armhf:v0.0.3
 network_mode: "host"
 command: "/usr/bin/opendlv-device-adc-bbblue --cid=111 --freq=1 --id=1"
-device-adc-bbblue-right:
-image: chalmersrevere/opendlv-device-adc-bbblue-armhf:v0.0.3
-network_mode: "host"
-command: "/usr/bin/opendlv-device-adc-bbblue --cid=111 --freq=1 --id=2"
+
