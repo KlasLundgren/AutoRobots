@@ -138,6 +138,6 @@ double Behavior::convertIrVoltageToDistance(float voltage) const noexcept
   double voltageGain2 = 39.8261;
   double voltageGain3 = 45.2807;
 
-  double distance = voltageGain1*(voltage*voltage) - voltageGain2*voltage + voltageGain3
+  double distance = voltageGain1*(voltage*voltage) - voltageGain2*voltage + voltageGain3;
   return distance;
 }
