@@ -16,6 +16,7 @@
  */
 
 #include "behavior.hpp"
+#include <iostream>
 
 Behavior::Behavior() noexcept:
   m_frontUltrasonicReading{},
@@ -93,13 +94,13 @@ void Behavior::step() noexcept
   double leftDistance = convertIrVoltageToDistance(leftIrReading.voltage());
   double rightDistance = convertIrVoltageToDistance(rightIrReading.voltage());
 
-  float pedalPosition = 0.2f;
-  float groundSteeringAngle = 0.3f;
-  if (frontDistance < 0.3f) {
-    pedalPosition = 0.0f;
+  float pedalPosition = 0.5f;
+  float groundSteeringAngle = 0.0f;
+  if (frontDistance < 0.9f) {
+    groundSteeringAngle = 0.5f;
   } else {
     if (rearDistance < 0.3f) {
-      pedalPosition = 0.4f;
+      pedalPosition += 0.0f;
     }
   }
 
@@ -112,6 +113,9 @@ void Behavior::step() noexcept
       groundSteeringAngle = 0.2f;
     }
   }
+  std::cout << "Left distance is:  "<< leftDistance << std::endl;
+  std::cout << "Right distance is: "<< rightDistance << std::endl;
+
 
   {
     std::lock_guard<std::mutex> lock1(m_groundSteeringAngleRequestMutex);
