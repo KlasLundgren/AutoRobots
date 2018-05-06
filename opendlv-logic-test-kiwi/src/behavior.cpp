@@ -94,28 +94,32 @@ void Behavior::step() noexcept
   double leftDistance = convertIrVoltageToDistance(leftIrReading.voltage());
   double rightDistance = convertIrVoltageToDistance(rightIrReading.voltage());
 
-  float pedalPosition = 0.5f;
-  float groundSteeringAngle = 0.0f;
-  if (frontDistance < 0.9f) {
-    groundSteeringAngle = 0.5f;
+  float pedalPosition = 0.2f;
+  float groundSteeringAngle = 0.3f;
+  if (frontDistance < 0.3f) {
+     groundSteeringAngle = -0.2f;
+    
   } else {
     if (rearDistance < 0.3f) {
-      pedalPosition += 0.0f;
+       groundSteeringAngle = 0.2f;
     }
   }
 
   if (leftDistance < rightDistance) {
     if (leftDistance < 0.2f) {
-      groundSteeringAngle = 0.2f;
+      groundSteeringAngle = -0.2f;
     }
   } else {
     if (rightDistance < 0.2f) {
       groundSteeringAngle = 0.2f;
     }
   }
-  std::cout << "Left distance is:  "<< leftDistance << std::endl;
-  std::cout << "Right distance is: "<< rightDistance << std::endl;
-
+  
+  std::cout << "Left Distance is:"<< leftDistance << std::endl;
+  std::cout << "Right Distance is:"<< rightDistance << std::endl;
+  std::cout << "Front Distance is:"<< frontDistance << std::endl;
+  std::cout << "rear Distance is:"<< rearDistance << std::endl;
+  
 
   {
     std::lock_guard<std::mutex> lock1(m_groundSteeringAngleRequestMutex);
@@ -134,10 +138,10 @@ void Behavior::step() noexcept
 // TODO: This is a rough estimate, improve by looking into the sensor specifications.
 double Behavior::convertIrVoltageToDistance(float voltage) const noexcept
 {
-  double voltageGain1 = 8.9320;
-  double voltageGain2 = 39.8261;
-  double voltageGain3 = 45.2807;
+  double voltageGain1 = 35.7163;
+  double voltageGain2 = -79.2321;
+  double voltageGain3 = 45.1424;
 
-  double distance = voltageGain1*(voltage*voltage) - voltageGain2*voltage + voltageGain3;
+  double distance = voltageGain1*(voltage*voltage) + voltageGain2*voltage + voltageGain3;
   return distance;
 }
